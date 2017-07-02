@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DapperClient;
 
 namespace ProbaDapperClient
@@ -13,23 +14,15 @@ namespace ProbaDapperClient
 			//client.BeginTransaction();
 			//client.Execute("drop table Category");
 			//client.Execute("create table Category(ID INTEGER PRIMARY KEY AUTOINCREMENT,Name Varchar(150))");
-			int c = (1000*1000);
-			while ((c = c - 5) > 0)
-			{
-				client.Execute("INSERT INTO CATEGORY(name) VALUES(@name)", new { name = "Колбаса" });
-				client.Execute("INSERT INTO CATEGORY(name) VALUES(@name)", new { name = "Сыр" });
-				client.Execute("INSERT INTO CATEGORY(name) VALUES(@name)", new { name = "Сметана" });
-				client.Execute("INSERT INTO CATEGORY(name) VALUES(@name)", new { name = "Молоко" });
-				client.Execute("INSERT INTO CATEGORY(name) VALUES(@name)", new { name = "Сахар" });
-				Console.WriteLine(c);
-			}
-			client.CommitTransaction();
+
 			
 
 			client.BeginTransaction();
-			var query = client.Query<Category>("select rowId as Id,Name from Category");
+			var query = new List<Category> (client.Query<Category>("select rowId as Id,Name from Category where Name like @name"
+			                                                       , new { name="Сыр"}));
 			foreach (var cat in query)
 				Console.WriteLine(cat);
+			Console.WriteLine(query.Count);
 						client.Dispose();
 			//
 		}
