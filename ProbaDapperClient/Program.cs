@@ -8,23 +8,20 @@ namespace ProbaDapperClient
 	{
 		public static void Main(string[] args)
 		{
-			var connectionString = new ConnectionStrings()["demo"];
-			var client = new DbClient(connectionString.ProviderName, connectionString.String);
-			Console.WriteLine("client.Connect = "+client.Connect());
-			//client.BeginTransaction();
-			//client.Execute("drop table Category");
-			//client.Execute("create table Category(ID INTEGER PRIMARY KEY AUTOINCREMENT,Name Varchar(150))");
-
-			
-
-			client.BeginTransaction();
-			var query = new List<Category> (client.Query<Category>("select rowId as Id,Name from Category where Name like @name"
-			                                                       , new { name="Сыр"}));
-			foreach (var cat in query)
-				Console.WriteLine(cat);
-			Console.WriteLine(query.Count);
-						client.Dispose();
-			//
+			//System.IO.File.Delete("demo.db");
+			var repo = new Repository();
+			/*repo.CreateSchema();
+			var cat = new Category("Мясные продукты");
+			cat.AddItem(new Item() { Name = "Колбаса" });
+			cat.AddItem(new Item() { Name = "Котлеты" });
+			cat.AddItem(new Item() { Name = "Пельмени" });
+			repo.CreateCategory(cat);
+			cat = new Category("Молочные продукты");
+			cat.AddItem(new Item() { Name = "Творог" });
+			cat.AddItem(new Item() { Name = "Молоко" });
+			cat.AddItem(new Item() { Name = "Сметана" });
+			repo.CreateCategory(cat);*/
+			repo.Items().ForEach(Console.WriteLine);
 		}
 	}
 }

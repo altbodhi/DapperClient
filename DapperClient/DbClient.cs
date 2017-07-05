@@ -11,26 +11,51 @@ namespace DapperClient
 		private DbConnection connection;
 		private DbTransaction transaction;
 		private IsolationLevel isolation = IsolationLevel.ReadCommitted;
+		private string providerName;
+		private string connectionString;
 		public bool AutoCommit { get; private set; }
+		/// <summary>
+		/// Sets the isolation level.
+		/// </summary>
+		/// <param name="isolation">Isolation.</param>
 		public void SetIsolationLevel(IsolationLevel isolation)
 		{
 			this.isolation = isolation;
 		}
-		public DbClient(string providerName, string connectionString)
-		{
-			CreateConnection(providerName, connectionString);
-		}
-
-		private void CreateConnection(string providerName, string connectionString, bool autoCommit = false)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:DapperClient.DbClient"/> class.
+		/// </summary>
+		/// <param name="providerName">Provider name.</param>
+		/// <param name="connectionString">Connection string.</param>
+		/// <param name="autoCommit">If set to <c>true</c> auto commit.</param>
+		public DbClient(string providerName, string connectionString, bool autoCommit = false)
 		{
 			AutoCommit = autoCommit;
+			this.providerName = providerName;
+			this.connectionString = connectionString;
+			BuildConnection();
+		}
+		/// <summary>
+		/// Builds the connection.
+		/// </summary>
+		private void BuildConnection()
+		{
 			connection?.Close();
 			connection = DbProviderFactories.GetFactory(providerName).CreateConnection();
 			connection.ConnectionString = connectionString;
 			if (!AutoCommit)
 				BeginTransaction();
 		}
-
+		/// <summary>
+		/// Reconnect this instance.
+		/// </summary>
+		/// <returns>The reconnect.</returns>
+		public bool Reconnect()
+		{
+			this.Dispose();
+			BuildConnection();
+			return Connect();
+		}
 		/// <summary>
 		/// Открывает соединение с БД и выполняет sql="select 1;"
 		/// </summary>
@@ -68,6 +93,10 @@ namespace DapperClient
 			return connection.Query<T>(commandText, param, transaction);
 		}
 
+		public object ExecuteScalar(string commandText, object param = null)
+		{
+			return connection.ExecuteScalar(commandText, param, transaction);
+		}
 		/// <summary>
 		/// Execute the specified commandText and param.
 		/// </summary>
