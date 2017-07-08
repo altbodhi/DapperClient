@@ -40,6 +40,8 @@
     <Compile Include="DbClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConnectionStrings.cs" />
+    <Compile Include="IQueryObject.cs" />
+    <Compile Include="SQLiteQueryObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

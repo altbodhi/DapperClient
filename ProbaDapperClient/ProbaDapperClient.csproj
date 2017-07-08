@@ -28,6 +28,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="Mono.Data.Sqlite" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -35,6 +37,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Repository.cs" />
+    <Compile Include="ItemQueryObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DapperClient\DapperClient.csproj">
