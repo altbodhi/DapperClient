@@ -67,6 +67,7 @@ namespace DapperClient
 			return connection.Query<T>(queryObject.Sql, queryObject.Params, GetWorkingTransaction());
 		}
 
+
 		public object ExecuteScalar(IQueryObject queryObject)
 		{
 			return connection.ExecuteScalar(queryObject.Sql, queryObject.Params, GetWorkingTransaction());

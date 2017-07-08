@@ -38,6 +38,7 @@
     <Compile Include="Item.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="ItemQueryObject.cs" />
+    <Compile Include="CategoryQueryObjects.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DapperClient\DapperClient.csproj">

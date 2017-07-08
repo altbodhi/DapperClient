@@ -9,16 +9,17 @@ namespace ProbaDapperClient
 	{
 		public static void Main(string[] args)
 		{
-			
-		
+
+			File.Delete("demo.db");		
 			var repo = new Repository();
 
 
 
 				repo.CreateSchema();
 
-
-			/*var cat = new Category("Мясные продукты");
+using (var transaction = repo.StartTransaction())
+			{
+			var cat = new Category("Мясные продукты");
 			cat.AddItem(new Item() { Name = "Колбаса" });
 			cat.AddItem(new Item() { Name = "Котлеты" });
 			cat.AddItem(new Item() { Name = "Пельмени" });
@@ -28,20 +29,19 @@ namespace ProbaDapperClient
 			cat.AddItem(new Item() { Name = "Молоко" });
 			cat.AddItem(new Item() { Name = "Сметана" });
 			repo.CreateCategory(cat);
-			using (var transaction = repo.StartTransaction())
-			{
-				for (int i = 1; i < 10000; i++)
-				{
-					repo.CreateItem(new Item() { Name = "Творог" });
-					repo.CreateItem(new Item() { Name = "Молоко" });
-					repo.CreateItem(new Item() { Name = "Сметана" });
-				}
+
+
 				transaction.Commit();
 
 				Console.WriteLine("done");
 				Console.ReadKey();
-			}*/
-			repo.ItemsByName("Молоко").ForEach(Console.WriteLine);
+			}
+			repo.ListCategoryWithItems().ForEach(cat =>
+		   {
+			   Console.WriteLine(cat);
+			   cat.Items.ForEach(Console.WriteLine);
+
+		   });
 
 		}
 	}

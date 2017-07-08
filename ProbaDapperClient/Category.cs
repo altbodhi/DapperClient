@@ -5,7 +5,7 @@ namespace ProbaDapperClient
 {
 	public class Category
 	{
-		public long Id { get; set; }
+		public long RowId { get; set; }
 		public string Name { get; set; }
 		public List<Item> Items { get; set; } = new List<Item>();
 		public Category() { }
@@ -20,7 +20,7 @@ namespace ProbaDapperClient
 		}
 		public override string ToString()
 		{
-			return string.Format("[Category: Id={0}, Name={1}]", Id, Name);
+			return string.Format("[Category: Id={0}, Name={1}]", RowId, Name);
 		}
 	}
 }
